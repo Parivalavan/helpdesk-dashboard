@@ -1,0 +1,26 @@
+<h3>Closed tickets in this Month</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>From</th>
+      <th>Subject</th>
+      <th>Agent</th>
+      <th>Replies</th>
+      <th>Days</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each model as |ticket|}}
+    <tr>
+      <td>{{ticket.id}}</td>
+      <td>{{ticket.from}}</td>
+      <td>{{ticket.subject}}</td>
+      <td>{{ticket.agent}}</td>
+      <td>{{ticket.replies}}</td>
+      <td>{{ticket.days}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
+

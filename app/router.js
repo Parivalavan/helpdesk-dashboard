@@ -12,6 +12,8 @@ Router.map(function() {
   this.route('tickets.edit', {path: 'tickets/:ticket_id/edit'});
   this.route('tickets.open', {path: 'tickets/open'});
   this.route('tickets.closed', {path: 'tickets/closed'});
+
+  this.route('reports.show', {path: 'reports/show'});
 });
 
 export default Router;
