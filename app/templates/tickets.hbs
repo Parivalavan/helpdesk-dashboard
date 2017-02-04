@@ -1,0 +1,47 @@
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          {{#link-to 'tickets' class='nav-link'}}My Tickets{{/link-to}}
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Open Tickets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Closed Tickets</a>
+        </li>
+      </ul>
+    </nav>
+    <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+    <h1>My Tickets ({{model.length}})</h1>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Agent</th>
+            <th>Status</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each model as |ticket|}}
+          {{#link-to 'tickets.edit' ticket.id tagName='tr'}}
+          <td>{{ticket.id}}</td>
+          <td>{{ticket.from}}</td>
+          <td>{{ticket.subject}}</td>
+          <td>{{ticket.agent}}</td>
+          <td>{{ticket.status}}</td>
+          <td>{{ticket.priority}}</td>
+          {{/link-to}}
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    </main>
+  </div>
+</div>
+
