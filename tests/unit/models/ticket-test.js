@@ -5,8 +5,7 @@ moduleForModel('ticket', 'Unit | Model | ticket', {
   needs: []
 });
 
-test('it exists', function(assert) {
-  let model = this.subject();
-  // let store = this.store();
-  assert.ok(!!model);
+test('it is Unassigneds', function(assert) {
+  let model = this.subject( {subject: 'Test', agent: 'Unassigned' });
+  assert.equal(model.get('unassigned'), true);
 });
