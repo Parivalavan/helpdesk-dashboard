@@ -14,7 +14,7 @@
       </ul>
     </nav>
     <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
-    <h1>My Tickets ({{model.length}})</h1>
+    <h1>Closed Tickets ({{closed.length}})</h1>
     <div class="table-responsive">
       <table class="table table-striped">
         <thead>
@@ -28,7 +28,7 @@
           </tr>
         </thead>
         <tbody>
-          {{#each model as |ticket|}}
+          {{#each closed as |ticket|}}
           {{#link-to 'tickets.edit' ticket.id tagName='tr'}}
           <td>{{ticket.id}}</td>
           <td>{{ticket.from}}</td>
@@ -44,4 +44,3 @@
     </main>
   </div>
 </div>
-

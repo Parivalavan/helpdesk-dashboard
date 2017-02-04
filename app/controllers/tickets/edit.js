@@ -35,6 +35,7 @@ export default Ember.Controller.extend({
       });
       note.save().then( ()=> {
         this.set('details', null);
+        ticket.reload();
       });
     }
   }

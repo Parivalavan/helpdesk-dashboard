@@ -1,63 +1,93 @@
-<div class='row'>
-  <div class='col-sm-8'>
-    <h2>Support Case #{{model.id}}</h2>
-  </div>
-  <div class='col-sm-4'>
-    <ul class="nav justify-content-end">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Status</a>
-        <div class="dropdown-menu">
-          <a {{action 'update' 'status' 'open'}} class="dropdown-item {{if isOpen 'active'}}" href="#">Open</a>
-          <a {{action 'update' 'status' 'closed'}}class="dropdown-item {{if isClosed 'active'}}" href="#">Closed</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Priority</a>
-        <div class="dropdown-menu">
-          <a {{action 'update' 'priority' 'low'}} class="dropdown-item {{if isLow 'active'}}" href="#">Low</a>
-          <a {{action 'update' 'priority' 'medium'}} class="dropdown-item {{if isMedium 'active'}}" href="#">Medium</a>
-          <a {{action 'update' 'priority' 'high'}} class="dropdown-item {{if isHigh 'active'}}" href="#">High</a>
-        </div>
-      </li>
-    </ul>
-  </div>
-</div>
-<div class="row">
-  <div class="col-sm-4">
-    <ul class="list-group">
-      <li class="list-group-item"><strong>From:</strong> {{model.from}}</li>
-      <li class="list-group-item"><strong>Subject:</strong> {{model.subject}}</li>
-      <li class="list-group-item"><strong>Status:</strong> {{model.status}}</li>
-      <li class="list-group-item"><strong>Priority:</strong> {{model.priority}}</li>
-      <li class="list-group-item flex-column align-items-start "><strong>Details</strong> {{model.details}}</li>
-    </ul>
-  </div>
-  <div class="col-sm-8">
-    <div class='list-group'>
-      <div class='list-group-item'>
-        <button {{action 'toggle'}} class='btn btn-secondary btn-sm btn-block'x >
-          {{if isExpanded "Hide" "Show"}}
-          {{model.notes.length}} response(s)
-        </button>
+<div class="container-fluid">
+  <div class="row">
+    <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+      <ul class="nav nav-pills flex-column">
+        <li class="nav-item">
+          {{#link-to 'tickets' class='nav-link'}}My Tickets{{/link-to}}
+        </li>
+        <li class="nav-item">
+          {{#link-to 'tickets.open' class='nav-link'}}Open Tickets{{/link-to}}
+        </li>
+        <li class="nav-item">
+          {{#link-to 'tickets.closed' class='nav-link'}}Closed Tickets{{/link-to}}
+        </li>
+      </ul>
+    </nav>
+    <main class="col-sm-9 offset-sm-3 col-md-10 offset-md-2 pt-3">
+    <div class='row'>
+      <div class='col-sm-8'>
+        <h1>Support Case #{{model.id}}</h1>
       </div>
-      {{#if isExpanded}}
-      {{#each model.notes as |note|}}
-      <div  class="list-group-item list-group-item-action flex-column align-items-start"> 
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">Reply from {{note.from}}</h5>
-          <small>{{note.timeago}} ago</small>
-        </div>
-        <p class="mb-1">{{note.details}}</p>
+      <div class='col-sm-4'>
+        <ul class="nav justify-content-end">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Status</a>
+            <div class="dropdown-menu">
+              <a {{action 'update' 'status' 'open'}} class="dropdown-item {{if isOpen 'active'}}" href="#">Open</a>
+              <a {{action 'update' 'status' 'closed'}}class="dropdown-item {{if isClosed 'active'}}" href="#">Closed</a>
+            </div>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Priority</a>
+            <div class="dropdown-menu">
+              <a {{action 'update' 'priority' 'low'}} class="dropdown-item {{if isLow 'active'}}" href="#">Low</a>
+              <a {{action 'update' 'priority' 'medium'}} class="dropdown-item {{if isMedium 'active'}}" href="#">Medium</a>
+              <a {{action 'update' 'priority' 'high'}} class="dropdown-item {{if isHigh 'active'}}" href="#">High</a>
+            </div>
+          </li>
+        </ul>
       </div>
-      {{/each}}
-      {{/if}}
     </div>
-    <form {{action 'addNote' details on='submit'}}>
-      <div class='form-group'>
-        {{textarea value=details rows='5' classNames='form-control' placeholder='Reply to this ticket...' id='ticket-note'}}
+    <div class="row">
+      <div class="col-sm-4">
+        <ul class="list-group">
+          <li class="list-group-item"><strong>From:</strong> {{model.from}}</li>
+          <li class="list-group-item"><strong>Subject:</strong> {{model.subject}}</li>
+          <li class="list-group-item"><strong>Status:</strong> {{model.status}}</li>
+          <li class="list-group-item"><strong>Priority:</strong> {{model.priority}}</li>
+          <li class="list-group-item flex-column align-items-start "><strong>Details</strong> {{model.details}}</li>
+        </ul>
       </div>
-      <button type='submit' class='btn btn-primary'>Submit Reply</button>
-    </form>
+      <div class="col-sm-8">
+        <div class='list-group'>
+          {{#if model.unassigned}}
+            <div class='list-group-item'>
+              <li class='list-group-item list-group-item-info'>This ticket is not assigned. Reply bellow assign to yourself.</li>
+            </div>
+          {{else}}
+            <div class='list-group-item'>
+              <li class='list-group-item'>Agent {{model.agent}} has been assigned to this ticket</li>
+            </div>
+          {{/if}}
+          <div class='list-group-item'>
+            <button {{action 'toggle'}} class='btn btn-secondary btn-sm btn-block'x >
+              {{if isExpanded "Hide" "Show"}}
+              {{model.notes.length}} response(s)
+            </button>
+          </div>
+          {{#if isExpanded}}
+          {{#each model.notes as |note|}}
+          <div  class="list-group-item list-group-item-action flex-column align-items-start"> 
+            <div class="d-flex w-100 justify-content-between">
+              <h5 class="mb-1">Reply from {{note.from}}</h5>
+              <small>{{note.timeago}} ago</small>
+            </div>
+            <p class="mb-1">{{note.details}}</p>
+          </div>
+          {{/each}}
+          {{/if}}
+        </div>
+        <form {{action 'addNote' details on='submit'}}>
+          <div class='form-group'>
+            {{textarea value=details rows='5' classNames='form-control' placeholder='Reply to this ticket...' id='ticket-note'}}
+          </div>
+          <button type='submit' class='btn btn-primary'>Submit Reply</button>
+        </form>
+      </div>
+    </div>
+
+    </main>
   </div>
 </div>
+
 
